@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env file
+dotenv_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -77,6 +83,12 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "postgres": {
+        "ENGINE": os.getenv("ENGINE"),
+        "NAME": os.getenv("NAME"),
+        "PASSWORD": os.getenv("PASSWORD"),
+        "USER": os.getenv("USER")
     }
 }
 
