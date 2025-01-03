@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "core.apps.CoreConfig"
 ]
 
 MIDDLEWARE = [
@@ -80,16 +81,16 @@ WSGI_APPLICATION = "lingo_learn.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # },
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("DB_ENGINE"),
+        "NAME": os.getenv("DB_NAME"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "USER": os.getenv("DB_USER")
     },
-    "postgres": {
-        "ENGINE": os.getenv("ENGINE"),
-        "NAME": os.getenv("NAME"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "USER": os.getenv("USER")
-    }
 }
 
 
