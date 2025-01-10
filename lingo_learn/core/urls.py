@@ -5,5 +5,7 @@ from rest_framework.authtoken import views as rest_views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("signin/", rest_views.obtain_auth_token, name="signin") # authorizes and returns token
+    path("signin/", rest_views.obtain_auth_token, name="signin"), # authorizes and returns token
+    path("get-test/", views.getTest, name="getTest"),
+    path("grade-test/", views.gradeTest, name="gradeTest")
 ]

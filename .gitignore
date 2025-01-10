@@ -1,2 +1,4 @@
 .idea
 .venv
+lingo_learn/.env
+**/__pycache__/
