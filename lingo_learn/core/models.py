@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Lesson(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE) # take off relation for now
     difficulty = models.CharField(max_length=20)
     subject = models.CharField(max_length=50)
     contents = models.TextField(max_length=1000)
@@ -19,6 +19,7 @@ class Test(models.Model):
 
     difficulty = models.CharField(max_length=50) # TODO: Change this to choices
     title = models.CharField(max_length=50)
+    language = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.title

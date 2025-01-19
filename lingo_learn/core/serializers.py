@@ -5,10 +5,10 @@ from .models import User, Test, Question, Choice, Lesson
 class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['user', 'difficulty', 'subject', 'contents']
+        fields = ['difficulty', 'subject', 'contents']
 
 class UserSerializer(ModelSerializer):
-    lessons = LessonSerializer(many=False, read_only=True)
+    #lessons = LessonSerializer(many=False, read_only=True)
     class Meta:
 
         model = User
@@ -29,4 +29,4 @@ class TestSerializer(ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
     class Meta:
         model = Test
-        fields = ['id','difficulty', 'title', 'questions']
+        fields = ['id','language','difficulty', 'title', 'questions']

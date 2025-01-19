@@ -17,7 +17,8 @@ def index(request):
 def getTest(request):
     """Returns a Test with multiple Questions."""
 
-    test = Test.objects.get(id=1) # returns the only current test
+    language = request.query_params.get('language')
+    test = Test.objects.get(language=language)
     serialized_test = serializers.TestSerializer(test)
 
     return Response(data=serialized_test.data, status=200)
@@ -29,9 +30,8 @@ def gradeTest(request):
 
     # get the set of questions & answers returned
     questions = request.data.get('questions')
-    answers = request.data.get('answers')
     test_id = request.data.get('test_id')
-    total_questions = Test.objects.get(id=test_id)
+    total_questions = Test.objects.get(id=test_id).questions.count()
 
     grade = 0
     score = 0
@@ -41,12 +41,12 @@ def gradeTest(request):
         correct_answer = Question.objects.get(id=question_id).correct_answer
         if answer == correct_answer:
             score += 1
-        grade = score /  total_questions
+    grade = score //  total_questions
 
 
 
     # if user received good grade, give them an advanced lesson, otherwise, give them a beginner lesson
-    if grade > 8:
+    if grade > 0:
         # lesson = {'difficulty': 'advanced', 'subject': 'Spanish', 'contents':'Some advanced lesson about the Spanish language.'}
         lesson = Lesson.objects.get(id=2) # this will hold the adv lesson
     else:
