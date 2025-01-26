@@ -4,8 +4,8 @@ from rest_framework.authtoken import views as rest_views
 
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("register/", views.register_user, name="register"),
     path("signin/", rest_views.obtain_auth_token, name="signin"), # authorizes and returns token
-    path("get-test/", views.getTest, name="getTest"),
-    path("grade-test/", views.gradeTest, name="gradeTest")
+    path("get-test/", views.get_test, name="getTest"),
+    path("grade-test/", views.grade_test, name="gradeTest")
 ]

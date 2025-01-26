@@ -1,20 +1,29 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 from .models import Test, Lesson, Choice, Question
 from . import serializers
 
 
 # Create your views here.
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def index(request):
-    return Response(data="Hello World", status=200)
+@api_view(['POST'])
+def register_user(request):
+    """Allows users to register new accounts."""
+
+    serializer = serializers.UserSerializer(data=request.data)
+
+    if serializer.is_valid():
+        user = serializer.save()
+        data = {"message": f"Successfully created user: {user.username}"}
+        return Response(data=data, status=201)
+
+    return Response(data=serializer.errors, status=400)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getTest(request):
+def get_test(request):
     """Returns a Test with multiple Questions."""
 
     language = request.query_params.get('language')
@@ -25,7 +34,7 @@ def getTest(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def gradeTest(request):
+def grade_test(request):
     """Grades test and returns a lesson based on the score."""
 
     # get the set of questions & answers returned
@@ -47,11 +56,9 @@ def gradeTest(request):
 
     # if user received good grade, give them an advanced lesson, otherwise, give them a beginner lesson
     if grade > 0:
-        # lesson = {'difficulty': 'advanced', 'subject': 'Spanish', 'contents':'Some advanced lesson about the Spanish language.'}
-        lesson = Lesson.objects.get(id=2) # this will hold the adv lesson
+        lesson = Lesson.objects.get(id=6) # this will hold the adv lesson
     else:
-        #lesson = {'difficulty': 'beginner', 'subject': 'Spanish', 'contents':'Some beginner lesson about the Spanish language.'}
-        lesson = Lesson.objects.get(id=1) # this will hold the beg lesson
+        lesson = Lesson.objects.get(id=5) # this will hold the beg lesson
 
     serialized_lesson = serializers.LessonSerializer(lesson)
     return Response(data=serialized_lesson.data, status=200)
